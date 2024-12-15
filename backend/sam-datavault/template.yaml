@@ -1,0 +1,165 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Resources:
+  # DynamoDB Table
+  FundsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: Funds
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+
+  # Define the Lambda Layer for DynamoDB Helper
+  DynamoDBLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      LayerName: DynamoDBLayer
+      Description: Layer for DynamoDB helper functions
+      ContentUri: layers/
+      CompatibleRuntimes:
+        - python3.9
+      LicenseInfo: MIT
+
+  # API Gateway
+  FundsApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: FundsApi
+      StageName: prod
+      EndpointConfiguration: REGIONAL
+      DefinitionBody:
+        openapi: 3.0.1
+        info:
+          title: Funds API
+          version: "1.0"
+        paths:
+          /funds:
+            post:
+              x-amazon-apigateway-integration:
+                uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${CreateFundFunction.Arn}/invocations
+                httpMethod: POST
+                type: aws_proxy
+          /funds/{id}:
+            get:
+              x-amazon-apigateway-integration:
+                uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${ReadFundFunction.Arn}/invocations
+                httpMethod: GET
+                type: aws_proxy
+            put:
+              x-amazon-apigateway-integration:
+                uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${UpdateFundFunction.Arn}/invocations
+                httpMethod: PUT
+                type: aws_proxy
+            delete:
+              x-amazon-apigateway-integration:
+                uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DeleteFundFunction.Arn}/invocations
+                httpMethod: DELETE
+                type: aws_proxy
+
+  # Lambda Functions
+  CreateFundFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: app.lambda_handler
+      Runtime: python3.9
+      Layers:
+        - !Ref DynamoDBLayer
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref FundsTable
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref FundsTable
+      CodeUri: lambdas/funds/create/
+      MemorySize: 3008
+      Timeout: 30
+      Events:
+        ApiInvoke:
+          Type: Api
+          Properties:
+            RestApiId: !Ref FundsApi
+            Path: /funds
+            Method: post
+
+  ReadFundFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: app.lambda_handler
+      Runtime: python3.9
+      Layers:
+        - !Ref DynamoDBLayer
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref FundsTable
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref FundsTable
+      CodeUri: lambdas/funds/read/
+      Events:
+        ApiInvoke:
+          Type: Api
+          Properties:
+            RestApiId: !Ref FundsApi
+            Path: /funds/{id}
+            Method: get
+
+  UpdateFundFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: app.lambda_handler
+      Runtime: python3.9
+      Layers:
+        - !Ref DynamoDBLayer
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref FundsTable
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref FundsTable
+      CodeUri: lambdas/funds/update
+      Events:
+        ApiInvoke:
+          Type: Api
+          Properties:
+            RestApiId: !Ref FundsApi
+            Path: /funds/{id}
+            Method: put
+
+  DeleteFundFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: app.lambda_handler
+      Runtime: python3.9
+      Layers:
+        - !Ref DynamoDBLayer
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref FundsTable
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref FundsTable
+      CodeUri: lambdas/funds/delete
+      Events:
+        ApiInvoke:
+          Type: Api
+          Properties:
+            RestApiId: !Ref FundsApi
+            Path: /funds/{id}
+            Method: delete
+
+Outputs:
+  FundsTableName:
+    Value: !Ref FundsTable
+    Export:
+      Name: FundsTableName
+
+  FundsApiUrl:
+    Description: URL of the API Gateway
+    Value: !Sub https://${FundsApi}.execute-api.${AWS::Region}.amazonaws.com/prod/
+    Export:
+      Name: FundsApiUrl
