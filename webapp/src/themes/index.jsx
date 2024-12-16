@@ -34,6 +34,7 @@ const lightTheme = createTheme({
     // background: { default: "#f1f8e9" },
     error: { main: "#c62828" },
   },
+  components: customComponents,
 });
 
 // const lightTheme = createTheme({

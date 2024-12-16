@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
-  Container,
   Typography,
   TextField,
   Button,
@@ -23,15 +22,6 @@ const CompanyChecker = () => {
   const [companyType, setCompanyType] = useState("LTD");
   const [isRegistered, setIsRegistered] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [resultLabel, setResultLabel] = useState("");
-
-  useEffect(() => {
-    setResultLabel(
-      isRegistered
-        ? `The company name "${companyName}" is already registered.`
-        : `The company name "${companyName}" is available.`
-    );
-  }, [isRegistered]);
 
   const companyTypes = [
     { value: "Limited", label: "Limited" },
@@ -46,11 +36,11 @@ const CompanyChecker = () => {
     setCompanyType(event.target.value);
   };
 
-  const fetchData = async (companyName) => {
+  const fetchData = async (fullCompanyName) => {
     try {
       const authHeader = btoa(`${API_KEY}:`);
       const response = await axios.get(
-        `${CORS_PROXY}${API_BASE_URL}?q=${companyName}`,
+        `${CORS_PROXY}${API_BASE_URL}?q=${fullCompanyName}`,
         {
           headers: {
             Authorization: `Basic ${authHeader}`,
@@ -73,13 +63,14 @@ const CompanyChecker = () => {
 
   const checkCompanyName = async () => {
     setLoading(true);
+    const fullCompanyName = `${companyName} ${companyType}`;
     try {
-      const data = await fetchData(companyName);
+      const data = await fetchData(fullCompanyName);
       if (data && data.items && data.items.length > 0) {
-        console.log(`Company "${companyName}" is already registered.`);
+        console.log(`Company "${fullCompanyName}" is already registered.`);
         setIsRegistered(() => true);
       } else {
-        console.log(`Company "${companyName}" is not registered.`);
+        console.log(`Company "${fullCompanyName}" is not registered.`);
         setIsRegistered(() => false);
       }
     } catch (error) {
@@ -152,11 +143,12 @@ const CompanyChecker = () => {
         <Box mt={4}>
           {isRegistered ? (
             <Typography variant="h6" color={"error"}>
-              {resultLabel}
+              The company name "{companyName} {companyType}" is already
+              registered.
             </Typography>
           ) : (
             <Typography variant="h6" color={"success"}>
-              {resultLabel}
+              The company name "{companyName} {companyType}" is available.
             </Typography>
           )}
         </Box>

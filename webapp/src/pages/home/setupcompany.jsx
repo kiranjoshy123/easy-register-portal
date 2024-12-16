@@ -7,6 +7,7 @@ import {
   Grow,
   Stack,
   Badge,
+  Divider,
 } from "@mui/material";
 import ScreenSearchDesktopIcon from "@mui/icons-material/ScreenSearchDesktop";
 import TouchAppIcon from "@mui/icons-material/TouchApp";
@@ -51,6 +52,15 @@ const SetupCompany = () => {
       >
         Setup your company today in 4 steps
       </Typography>
+      {/* <Box display="flex" justifyContent="center" mb={2}>
+        <Divider
+          sx={{
+            width: "150px",
+            borderBottomWidth: 3,
+            borderColor: "primary.main",
+          }}
+        />
+      </Box> */}
       <Grid container spacing={4} justifyContent="center" alignItems="stretch">
         {steps.map((step, index) => (
           <Grow in={true} timeout={1000 * (index + 1)} key={index}>

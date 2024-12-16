@@ -7,7 +7,7 @@ import EmailIcon from "@mui/icons-material/Email";
 const ContactUs = () => {
   return (
     <Box sx={{ p: 2, textAlign: "center" }}>
-      <Typography variant="h4" gutterBottom sx={{ fontWeight: "bold" }}>
+      <Typography variant="h4" gutterBottom sx={{ fontWeight: "bold", mb: 0 }}>
         Have a question? Get in touch today
       </Typography>
       <Typography variant="body1" gutterBottom sx={{ mb: 2 }}>
