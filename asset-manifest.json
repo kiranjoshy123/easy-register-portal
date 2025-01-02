@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/easy-register-portal/static/css/main.ab1885c1.css",
-    "main.js": "/easy-register-portal/static/js/main.0e575f82.js",
+    "main.js": "/easy-register-portal/static/js/main.0f90f21e.js",
     "static/js/453.8566eefc.chunk.js": "/easy-register-portal/static/js/453.8566eefc.chunk.js",
     "static/media/roboto-latin-700-normal.woff2": "/easy-register-portal/static/media/roboto-latin-700-normal.4535474e1cf8598695ad.woff2",
     "static/media/roboto-latin-500-normal.woff2": "/easy-register-portal/static/media/roboto-latin-500-normal.7077203b1982951ecf76.woff2",
@@ -61,11 +61,11 @@
     "static/media/roboto-greek-ext-400-normal.woff": "/easy-register-portal/static/media/roboto-greek-ext-400-normal.16eb83b4a3b1ea994243.woff",
     "index.html": "/easy-register-portal/index.html",
     "main.ab1885c1.css.map": "/easy-register-portal/static/css/main.ab1885c1.css.map",
-    "main.0e575f82.js.map": "/easy-register-portal/static/js/main.0e575f82.js.map",
+    "main.0f90f21e.js.map": "/easy-register-portal/static/js/main.0f90f21e.js.map",
     "453.8566eefc.chunk.js.map": "/easy-register-portal/static/js/453.8566eefc.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.ab1885c1.css",
-    "static/js/main.0e575f82.js"
+    "static/js/main.0f90f21e.js"
   ]
 }
