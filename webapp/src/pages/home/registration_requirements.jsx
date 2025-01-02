@@ -5,7 +5,7 @@ const requirements = [
   {
     title: "Office Address",
     content:
-      "You need a registered UK office address for official correspondence, such as letters from Companies House. Alternatively, you can use a virtual office address provided by ANNA's partners, which can forward your mail.",
+      "You need a registered UK office address for official correspondence, such as letters from Companies House.",
   },
   {
     title: "Business Information",

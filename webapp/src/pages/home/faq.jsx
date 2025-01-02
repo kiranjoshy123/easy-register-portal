@@ -12,7 +12,7 @@ const faqData = [
   {
     question: "How much does it cost to register a company?",
     answer:
-      "Registering a business online with Companies House will cost you £50. But ANNA can register a company for you absolutely free – just select Enhanced or Total Support plan. You also get a business account with bookkeeping software.",
+      "Registering a business online through us will cost you £69",
   },
   {
     question: "How long does the company formation process take?",

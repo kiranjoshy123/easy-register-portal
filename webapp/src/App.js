@@ -55,12 +55,12 @@ function App() {
       <Router>
         <AppBar position="static">
           <Toolbar>
-            <IconButton edge="start" color="inherit" onClick={handleMenuOpen}>
+            {/* <IconButton edge="start" color="inherit" onClick={handleMenuOpen}>
               <MenuIcon />
-            </IconButton>
+            </IconButton> */}
 
             <Typography variant="h6" sx={{ flexGrow: 1 }}>
-              MyApp
+              Easy Register
             </Typography>
 
             <Tabs
@@ -80,7 +80,7 @@ function App() {
           </Toolbar>
         </AppBar>
 
-        <Menu
+        {/* <Menu
           anchorEl={anchorEl}
           open={Boolean(anchorEl)}
           onClose={handleMenuClose}
@@ -91,7 +91,7 @@ function App() {
           <MenuItem component={Link} to="/about" onClick={handleMenuClose}>
             About
           </MenuItem>
-        </Menu>
+        </Menu> */}
 
         <Routes>
           <Route path="/" element={<Home />} />

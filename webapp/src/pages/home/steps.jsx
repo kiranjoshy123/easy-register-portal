@@ -7,14 +7,14 @@ import {
   Grow,
   Stack,
   Badge,
-  Divider,
+  Button,
 } from "@mui/material";
 import ScreenSearchDesktopIcon from "@mui/icons-material/ScreenSearchDesktop";
 import TouchAppIcon from "@mui/icons-material/TouchApp";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
 
-const steps = [
+const stepsArray = [
   {
     title: "Choose name",
     description:
@@ -41,7 +41,7 @@ const steps = [
   },
 ];
 
-const SetupCompany = () => {
+const Steps = () => {
   return (
     <Box>
       <Typography
@@ -62,7 +62,7 @@ const SetupCompany = () => {
         />
       </Box> */}
       <Grid container spacing={4} justifyContent="center" alignItems="stretch">
-        {steps.map((step, index) => (
+        {stepsArray.map((step, index) => (
           <Grow in={true} timeout={1000 * (index + 1)} key={index}>
             <Grid item xs={12} md={3} style={{ display: "flex" }}>
               <Stack spacing={2}>
@@ -115,8 +115,18 @@ const SetupCompany = () => {
           </Grow>
         ))}
       </Grid>
+      {/* <Box display="flex" justifyContent="center" alignItems="center" mt={8}>
+        <Button
+          variant="contained"
+          color="primary"
+          size="large"
+        //={checkCompanyName}
+        >
+          Register
+        </Button>
+      </Box> */}
     </Box>
   );
 };
 
-export default SetupCompany;
+export default Steps;

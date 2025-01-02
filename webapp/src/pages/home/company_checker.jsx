@@ -20,6 +20,7 @@ const API_BASE_URL = "https://api.company-information.service.gov.uk/search";
 const CompanyChecker = () => {
   const [companyName, setCompanyName] = useState("");
   const [companyType, setCompanyType] = useState("LTD");
+  const [companyNameSearched, setCompanyNameSearched] = useState("");
   const [isRegistered, setIsRegistered] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -38,6 +39,7 @@ const CompanyChecker = () => {
 
   const fetchData = async (fullCompanyName) => {
     try {
+      setCompanyNameSearched(() => fullCompanyName);
       const authHeader = btoa(`${API_KEY}:`);
       const response = await axios.get(
         `${CORS_PROXY}${API_BASE_URL}?q=${fullCompanyName}`,
@@ -66,6 +68,7 @@ const CompanyChecker = () => {
     const fullCompanyName = `${companyName} ${companyType}`;
     try {
       const data = await fetchData(fullCompanyName);
+      console.log(data)
       if (data && data.items && data.items.length > 0) {
         console.log(`Company "${fullCompanyName}" is already registered.`);
         setIsRegistered(() => true);
@@ -75,7 +78,7 @@ const CompanyChecker = () => {
       }
     } catch (error) {
       console.error("Error checking company name:", error);
-      setIsRegistered(() => false);
+      setIsRegistered(() => true);
     } finally {
       setLoading(false);
     }
@@ -102,6 +105,7 @@ const CompanyChecker = () => {
       </Typography>
       <Box mt={4}>
         <Paper elevation={12} square={false} sx={{ p: 2.5 }}>
+          <Typography variant="h6" align="left" mb={1}>Enter your preferred company name to check the availability</Typography>
           <Grid container spacing={2} alignItems="center">
             <Grid item xs={12} sm={8}>
               <TextField
@@ -139,16 +143,16 @@ const CompanyChecker = () => {
           </Grid>
         </Paper>
       </Box>
-      {isRegistered !== null && (
+      {isRegistered !== null && !loading && (
         <Box mt={4}>
           {isRegistered ? (
             <Typography variant="h6" color={"error"}>
-              The company name "{companyName} {companyType}" is already
+              The company name "{companyNameSearched}" is already
               registered.
             </Typography>
           ) : (
             <Typography variant="h6" color={"success"}>
-              The company name "{companyName} {companyType}" is available.
+              The company name "{companyNameSearched}" is available.
             </Typography>
           )}
         </Box>

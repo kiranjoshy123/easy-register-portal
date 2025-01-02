@@ -8,7 +8,7 @@ import AccountBalance from "@mui/icons-material/AccountBalance";
 import Build from "@mui/icons-material/Build";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 
-const benefits = [
+const benefitsArray = [
   {
     icon: <ThumbUp style={{ fontSize: 40 }} color="primary" />,
     title: "Simple Setup",
@@ -53,7 +53,7 @@ const benefits = [
   },
 ];
 
-const CompanyFormationBenefits = () => {
+const Benefits = () => {
   return (
     <Box sx={{ pt: 4 }}>
       <Typography
@@ -70,7 +70,7 @@ const CompanyFormationBenefits = () => {
         registering directly with Companies House.
       </Typography>
       <Grid container spacing={4} pt={3}>
-        {benefits.map((benefit, index) => (
+        {benefitsArray.map((benefit, index) => (
           <Grid item xs={12} sm={6} md={4} key={index}>
             <Box display="flex" flexDirection="column" alignItems="center">
               {benefit.icon}
@@ -88,4 +88,4 @@ const CompanyFormationBenefits = () => {
   );
 };
 
-export default CompanyFormationBenefits;
+export default Benefits;
